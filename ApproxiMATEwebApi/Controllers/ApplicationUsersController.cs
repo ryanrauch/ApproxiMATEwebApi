@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ApproxiMATEwebApi.Data;
 using ApproxiMATEwebApi.Models;
@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApproxiMATEwebApi.Controllers
 {
-    [Authorize(Policy = "AdministratorPolicy")]
+    [Produces("application/json")]
+    [Route("api/ApplicationUsers")]
+    [Authorize]
     public class ApplicationUsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,130 +23,101 @@ namespace ApproxiMATEwebApi.Controllers
             _context = context;
         }
 
-        // GET: ApplicationUsers
-        public async Task<IActionResult> Index()
+        // GET: api/ApplicationUsers
+        [HttpGet]
+        public IEnumerable<ApplicationUser> GetApplicationUser()
         {
-            return View(await _context.ApplicationUser.ToListAsync());
+            return _context.ApplicationUser;
         }
 
-        // GET: ApplicationUsers/Details/5
-        public async Task<IActionResult> Details(string id)
+        // GET: api/ApplicationUsers/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetApplicationUser([FromRoute] string id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
-            }
-
-            var applicationUser = await _context.ApplicationUser
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(applicationUser);
-        }
-
-        // GET: ApplicationUsers/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ApplicationUsers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,DateOfBirth,Gender,AccountType,CurrentLatitude,CurrentLongitude,CurrentTimeStamp,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(applicationUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(applicationUser);
-        }
-
-        // GET: ApplicationUsers/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
             var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
+
             if (applicationUser == null)
             {
                 return NotFound();
             }
-            return View(applicationUser);
+
+            return Ok(applicationUser);
         }
 
-        // POST: ApplicationUsers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,DateOfBirth,Gender,AccountType,CurrentLatitude,CurrentLongitude,CurrentTimeStamp,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        // PUT: api/ApplicationUsers/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutApplicationUser([FromRoute] string id, [FromBody] ApplicationUser applicationUser)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != applicationUser.Id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(applicationUser).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(applicationUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ApplicationUserExists(applicationUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(applicationUser);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ApplicationUserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: ApplicationUsers/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        // POST: api/ApplicationUsers
+        [HttpPost]
+        public async Task<IActionResult> PostApplicationUser([FromBody] ApplicationUser applicationUser)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return BadRequest(ModelState);
             }
 
-            var applicationUser = await _context.ApplicationUser
-                .SingleOrDefaultAsync(m => m.Id == id);
+            _context.ApplicationUser.Add(applicationUser);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetApplicationUser", new { id = applicationUser.Id }, applicationUser);
+        }
+
+        // DELETE: api/ApplicationUsers/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteApplicationUser([FromRoute] string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
             if (applicationUser == null)
             {
                 return NotFound();
             }
 
-            return View(applicationUser);
-        }
-
-        // POST: ApplicationUsers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var applicationUser = await _context.ApplicationUser.SingleOrDefaultAsync(m => m.Id == id);
             _context.ApplicationUser.Remove(applicationUser);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return Ok(applicationUser);
         }
 
         private bool ApplicationUserExists(string id)

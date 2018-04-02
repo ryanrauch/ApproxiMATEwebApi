@@ -13,6 +13,10 @@ using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Services;
 using ApproxiMATEwebApi.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ApproxiMATEwebApi
 {
@@ -40,13 +44,61 @@ namespace ApproxiMATEwebApi
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            //JWT??? make sure this is in correct order
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //        .AddJwtBearer(options =>
+            //        {
+            //            options.TokenValidationParameters = new TokenValidationParameters
+            //            {
+            //                ValidateIssuer = true,
+            //                ValidateAudience = true,
+            //                ValidateLifetime = true,
+            //                ValidateIssuerSigningKey = true,
+            //                ValidIssuer = Configuration["Jwt:Issuer"],
+            //                ValidAudience = Configuration["Jwt:Issuer"],
+            //                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+            //            };
+            //        });
+            //var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
+            //services.Configure<JwtIssuerOptions>(options =>
+            //{
+            //    options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
+            //    options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
+            //    options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+            //});
+
             services.AddMvc();
+
+            //Jwt added from example here:
+            //github.com/ruidfigueiredo/WebApiJwtExample/blob/master/Startup.cs
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Jwt";
+                options.DefaultChallengeScheme = "Jwt";
+            }).AddJwtBearer("Jwt", options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateAudience = false,
+                    //ValidAudience = "the audience you want to validate",
+                    ValidateIssuer = false,
+                    //ValidIssuer = "the isser you want to validate",
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.JwtSecretNeedsToBeSecured)),
+                    ValidateLifetime = true, //validate the expiration and not before values in the token
+                    ClockSkew = TimeSpan.FromMinutes(5) //5 minute tolerance for the expiration date
+                };
+            });
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdministratorPolicy", policy =>
                     policy.Requirements.Add(new AdministratorRequirement(AccountType.Administrative)));
             });
+            
+            //TODO:
+            //claim types do not work with JwtBearer token??
+
             services.AddSingleton<IAuthorizationHandler, AdministratorHandler>();
         }
 

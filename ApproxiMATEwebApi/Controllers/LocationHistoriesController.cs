@@ -12,59 +12,58 @@ using Microsoft.AspNetCore.Authorization;
 namespace ApproxiMATEwebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ZoneStates")]
+    [Route("api/LocationHistories")]
     [Authorize]
-    public class ZoneStatesController : Controller
+    public class LocationHistoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ZoneStatesController(ApplicationDbContext context)
+        public LocationHistoriesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/ZoneStates
+        // GET: api/LocationHistories
         [HttpGet]
-        public IEnumerable<ZoneState> GetZoneStates()
+        public IEnumerable<LocationHistory> GetLocationHistories()
         {
-            return _context.ZoneStates;
+            return _context.LocationHistories;
         }
 
-        // GET: api/ZoneStates/5
+        // GET: api/LocationHistories/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetZoneState([FromRoute] int id)
+        public async Task<IActionResult> GetLocationHistory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
+            var locationHistory = await _context.LocationHistories.SingleOrDefaultAsync(m => m.HistoryID == id);
 
-            if (zoneState == null)
+            if (locationHistory == null)
             {
                 return NotFound();
             }
 
-            return Ok(zoneState);
+            return Ok(locationHistory);
         }
 
-        // PUT: api/ZoneStates/5
+        // PUT: api/LocationHistories/5
         [HttpPut("{id}")]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> PutZoneState([FromRoute] int id, [FromBody] ZoneState zoneState)
+        public async Task<IActionResult> PutLocationHistory([FromRoute] int id, [FromBody] LocationHistory locationHistory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != zoneState.StateId)
+            if (id != locationHistory.HistoryID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(zoneState).State = EntityState.Modified;
+            _context.Entry(locationHistory).State = EntityState.Modified;
 
             try
             {
@@ -72,7 +71,7 @@ namespace ApproxiMATEwebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ZoneStateExists(id))
+                if (!LocationHistoryExists(id))
                 {
                     return NotFound();
                 }
@@ -85,47 +84,45 @@ namespace ApproxiMATEwebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/ZoneStates
+        // POST: api/LocationHistories
         [HttpPost]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> PostZoneState([FromBody] ZoneState zoneState)
+        public async Task<IActionResult> PostLocationHistory([FromBody] LocationHistory locationHistory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.ZoneStates.Add(zoneState);
+            _context.LocationHistories.Add(locationHistory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetZoneState", new { id = zoneState.StateId }, zoneState);
+            return CreatedAtAction("GetLocationHistory", new { id = locationHistory.HistoryID }, locationHistory);
         }
 
-        // DELETE: api/ZoneStates/5
+        // DELETE: api/LocationHistories/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> DeleteZoneState([FromRoute] int id)
+        public async Task<IActionResult> DeleteLocationHistory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
-            if (zoneState == null)
+            var locationHistory = await _context.LocationHistories.SingleOrDefaultAsync(m => m.HistoryID == id);
+            if (locationHistory == null)
             {
                 return NotFound();
             }
 
-            _context.ZoneStates.Remove(zoneState);
+            _context.LocationHistories.Remove(locationHistory);
             await _context.SaveChangesAsync();
 
-            return Ok(zoneState);
+            return Ok(locationHistory);
         }
 
-        private bool ZoneStateExists(int id)
+        private bool LocationHistoryExists(int id)
         {
-            return _context.ZoneStates.Any(e => e.StateId == id);
+            return _context.LocationHistories.Any(e => e.HistoryID == id);
         }
     }
 }

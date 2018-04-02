@@ -12,59 +12,58 @@ using Microsoft.AspNetCore.Authorization;
 namespace ApproxiMATEwebApi.Controllers
 {
     [Produces("application/json")]
-    [Route("api/ZoneStates")]
+    [Route("api/ZoneRegions")]
     [Authorize]
-    public class ZoneStatesController : Controller
+    public class ZoneRegionsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ZoneStatesController(ApplicationDbContext context)
+        public ZoneRegionsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/ZoneStates
+        // GET: api/ZoneRegions
         [HttpGet]
-        public IEnumerable<ZoneState> GetZoneStates()
+        public IEnumerable<ZoneRegion> GetZoneRegions()
         {
-            return _context.ZoneStates;
+            return _context.ZoneRegions;
         }
 
-        // GET: api/ZoneStates/5
+        // GET: api/ZoneRegions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetZoneState([FromRoute] int id)
+        public async Task<IActionResult> GetZoneRegion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
+            var zoneRegion = await _context.ZoneRegions.SingleOrDefaultAsync(m => m.RegionId == id);
 
-            if (zoneState == null)
+            if (zoneRegion == null)
             {
                 return NotFound();
             }
 
-            return Ok(zoneState);
+            return Ok(zoneRegion);
         }
 
-        // PUT: api/ZoneStates/5
+        // PUT: api/ZoneRegions/5
         [HttpPut("{id}")]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> PutZoneState([FromRoute] int id, [FromBody] ZoneState zoneState)
+        public async Task<IActionResult> PutZoneRegion([FromRoute] int id, [FromBody] ZoneRegion zoneRegion)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != zoneState.StateId)
+            if (id != zoneRegion.RegionId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(zoneState).State = EntityState.Modified;
+            _context.Entry(zoneRegion).State = EntityState.Modified;
 
             try
             {
@@ -72,7 +71,7 @@ namespace ApproxiMATEwebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ZoneStateExists(id))
+                if (!ZoneRegionExists(id))
                 {
                     return NotFound();
                 }
@@ -85,47 +84,45 @@ namespace ApproxiMATEwebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/ZoneStates
+        // POST: api/ZoneRegions
         [HttpPost]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> PostZoneState([FromBody] ZoneState zoneState)
+        public async Task<IActionResult> PostZoneRegion([FromBody] ZoneRegion zoneRegion)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.ZoneStates.Add(zoneState);
+            _context.ZoneRegions.Add(zoneRegion);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetZoneState", new { id = zoneState.StateId }, zoneState);
+            return CreatedAtAction("GetZoneRegion", new { id = zoneRegion.RegionId }, zoneRegion);
         }
 
-        // DELETE: api/ZoneStates/5
+        // DELETE: api/ZoneRegions/5
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdministratorPolicy")]
-        public async Task<IActionResult> DeleteZoneState([FromRoute] int id)
+        public async Task<IActionResult> DeleteZoneRegion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
-            if (zoneState == null)
+            var zoneRegion = await _context.ZoneRegions.SingleOrDefaultAsync(m => m.RegionId == id);
+            if (zoneRegion == null)
             {
                 return NotFound();
             }
 
-            _context.ZoneStates.Remove(zoneState);
+            _context.ZoneRegions.Remove(zoneRegion);
             await _context.SaveChangesAsync();
 
-            return Ok(zoneState);
+            return Ok(zoneRegion);
         }
 
-        private bool ZoneStateExists(int id)
+        private bool ZoneRegionExists(int id)
         {
-            return _context.ZoneStates.Any(e => e.StateId == id);
+            return _context.ZoneRegions.Any(e => e.RegionId == id);
         }
     }
 }

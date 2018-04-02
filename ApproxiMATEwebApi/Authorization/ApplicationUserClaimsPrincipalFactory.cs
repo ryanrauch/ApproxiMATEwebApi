@@ -18,10 +18,11 @@ namespace ApproxiMATEwebApi.Authorization
         {
 
         }
+
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(ApplicationUser user)
         {
             //return base.GenerateClaimsAsync(user);
-            var identity = await base.GenerateClaimsAsync(user);
+            var identity = await base.GenerateClaimsAsync(user).ConfigureAwait(false);
             identity.AddEnumClaim(Constants.ApplicationUserAccountTypeClaim, user.AccountType);
             return identity;
         }
