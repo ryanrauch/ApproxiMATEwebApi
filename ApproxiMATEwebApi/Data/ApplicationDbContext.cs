@@ -22,5 +22,10 @@ namespace ApproxiMATEwebApi.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+        public DbSet<LocationHistory> LocationHistories { get; set; }
+        public DbSet<ZoneCity> ZoneCities { get; set; }
+        public DbSet<ZoneRegion> ZoneRegions { get; set; }
+        public DbSet<ZoneRegionPolygon> ZoneRegionPolygons { get; set; }
+        public DbSet<ZoneState> ZoneStates { get; set; }
     }
 }

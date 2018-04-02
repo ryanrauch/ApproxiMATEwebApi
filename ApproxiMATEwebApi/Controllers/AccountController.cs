@@ -220,7 +220,15 @@ namespace ApproxiMATEwebApi.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    DateOfBirth = model.DateOfBirth,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AccountType = AccountType.Regular
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -310,7 +318,15 @@ namespace ApproxiMATEwebApi.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    DateOfBirth = model.DateOfBirth,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    AccountType = AccountType.Regular
+                };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

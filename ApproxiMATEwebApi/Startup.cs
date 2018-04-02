@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ApproxiMATEwebApi.Data;
 using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Services;
+using ApproxiMATEwebApi.Authorization;
 
 namespace ApproxiMATEwebApi
 {
@@ -33,10 +34,18 @@ namespace ApproxiMATEwebApi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdministratorPolicy", policy =>
+                    policy.Requirements.Add(new AdministratorRequirement(AccountType.Administrative)));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

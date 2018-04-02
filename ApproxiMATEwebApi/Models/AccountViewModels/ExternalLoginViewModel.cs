@@ -11,5 +11,20 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        //below variables were added?
+        
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of Birth")]
+        public DateTime DateOfBirth { get; set; }
     }
 }
