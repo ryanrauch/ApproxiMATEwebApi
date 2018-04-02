@@ -12,22 +12,22 @@ using Microsoft.AspNetCore.Authorization;
 namespace ApproxiMATEwebApi.Controllers
 {
     [Authorize]
-    public class ZoneStatesController : Controller
+    public class ZoneCitiesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ZoneStatesController(ApplicationDbContext context)
+        public ZoneCitiesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ZoneStates
+        // GET: ZoneCities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ZoneStates.ToListAsync());
+            return View(await _context.ZoneCities.ToListAsync());
         }
 
-        // GET: ZoneStates/Details/5
+        // GET: ZoneCities/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace ApproxiMATEwebApi.Controllers
                 return NotFound();
             }
 
-            var zoneState = await _context.ZoneStates
-                .SingleOrDefaultAsync(m => m.StateId == id);
-            if (zoneState == null)
+            var zoneCity = await _context.ZoneCities
+                .SingleOrDefaultAsync(m => m.CityId == id);
+            if (zoneCity == null)
             {
                 return NotFound();
             }
 
-            return View(zoneState);
+            return View(zoneCity);
         }
 
-        // GET: ZoneStates/Create
+        // GET: ZoneCities/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ZoneStates/Create
+        // POST: ZoneCities/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StateId,Description,ShortDescription")] ZoneState zoneState)
+        public async Task<IActionResult> Create([Bind("CityId,Description")] ZoneCity zoneCity)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(zoneState);
+                _context.Add(zoneCity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(zoneState);
+            return View(zoneCity);
         }
 
-        // GET: ZoneStates/Edit/5
+        // GET: ZoneCities/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace ApproxiMATEwebApi.Controllers
                 return NotFound();
             }
 
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
-            if (zoneState == null)
+            var zoneCity = await _context.ZoneCities.SingleOrDefaultAsync(m => m.CityId == id);
+            if (zoneCity == null)
             {
                 return NotFound();
             }
-            return View(zoneState);
+            return View(zoneCity);
         }
 
-        // POST: ZoneStates/Edit/5
+        // POST: ZoneCities/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StateId,Description,ShortDescription")] ZoneState zoneState)
+        public async Task<IActionResult> Edit(int id, [Bind("CityId,Description")] ZoneCity zoneCity)
         {
-            if (id != zoneState.StateId)
+            if (id != zoneCity.CityId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace ApproxiMATEwebApi.Controllers
             {
                 try
                 {
-                    _context.Update(zoneState);
+                    _context.Update(zoneCity);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ZoneStateExists(zoneState.StateId))
+                    if (!ZoneCityExists(zoneCity.CityId))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace ApproxiMATEwebApi.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(zoneState);
+            return View(zoneCity);
         }
 
-        // GET: ZoneStates/Delete/5
+        // GET: ZoneCities/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +126,30 @@ namespace ApproxiMATEwebApi.Controllers
                 return NotFound();
             }
 
-            var zoneState = await _context.ZoneStates
-                .SingleOrDefaultAsync(m => m.StateId == id);
-            if (zoneState == null)
+            var zoneCity = await _context.ZoneCities
+                .SingleOrDefaultAsync(m => m.CityId == id);
+            if (zoneCity == null)
             {
                 return NotFound();
             }
 
-            return View(zoneState);
+            return View(zoneCity);
         }
 
-        // POST: ZoneStates/Delete/5
+        // POST: ZoneCities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);
-            _context.ZoneStates.Remove(zoneState);
+            var zoneCity = await _context.ZoneCities.SingleOrDefaultAsync(m => m.CityId == id);
+            _context.ZoneCities.Remove(zoneCity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ZoneStateExists(int id)
+        private bool ZoneCityExists(int id)
         {
-            return _context.ZoneStates.Any(e => e.StateId == id);
+            return _context.ZoneCities.Any(e => e.CityId == id);
         }
     }
 }
