@@ -11,6 +11,6 @@ namespace ApproxiMATEwebApi.Models
         [Key]
         public int CityId { get; set; }
         public String Description { get; set; }
-        public ZoneState State { get; set; }
+        public virtual ZoneState State { get; set; }
     }
 }

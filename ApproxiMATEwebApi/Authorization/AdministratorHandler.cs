@@ -12,14 +12,12 @@ namespace ApproxiMATEwebApi.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdministratorRequirement requirement)
         {
             //throw new NotImplementedException();
-            if(!context.User.HasClaim(c=> c.Type == Constants.ApplicationUserAccountTypeClaim 
-                                          && c.Issuer == Constants.HostedWebApiAddress))
+            if(!context.User.HasClaim(c=> c.Type == Constants.ApplicationUserAccountTypeClaim))
             {
                 return Task.CompletedTask;
             }
-            var accountType = context.User.FindFirst(c => c.Type == Constants.ApplicationUserAccountTypeClaim
-                                                          && c.Issuer == Constants.HostedWebApiAddress).Value;
-            if (accountType.Equals("Administrator"))
+            var accountType = context.User.FindFirst(c => c.Type == Constants.ApplicationUserAccountTypeClaim).Value;
+            if (accountType.Equals(AccountType.Administrative.ToString()))
                 context.Succeed(requirement);
             return Task.CompletedTask;
         }

@@ -12,6 +12,7 @@ using ApproxiMATEwebApi.Data;
 using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Services;
 using ApproxiMATEwebApi.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApproxiMATEwebApi
 {
@@ -46,6 +47,7 @@ namespace ApproxiMATEwebApi
                 options.AddPolicy("AdministratorPolicy", policy =>
                     policy.Requirements.Add(new AdministratorRequirement(AccountType.Administrative)));
             });
+            services.AddSingleton<IAuthorizationHandler, AdministratorHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -46,6 +46,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneStates/Create
+        [Authorize(Policy = "AdministratorPolicy")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +57,7 @@ namespace ApproxiMATEwebApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Create([Bind("StateId,Description,ShortDescription")] ZoneState zoneState)
         {
             if (ModelState.IsValid)
@@ -68,6 +70,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneStates/Edit/5
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +91,7 @@ namespace ApproxiMATEwebApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("StateId,Description,ShortDescription")] ZoneState zoneState)
         {
             if (id != zoneState.StateId)
@@ -119,6 +123,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneStates/Delete/5
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +144,7 @@ namespace ApproxiMATEwebApi.Controllers
         // POST: ZoneStates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var zoneState = await _context.ZoneStates.SingleOrDefaultAsync(m => m.StateId == id);

@@ -24,7 +24,7 @@ namespace ApproxiMATEwebApi.Controllers
         // GET: ZoneCities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ZoneCities.ToListAsync());
+            return View(await _context.ZoneCities.Include(c=>c.State).ToListAsync());
         }
 
         // GET: ZoneCities/Details/5
@@ -46,6 +46,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneCities/Create
+        [Authorize(Policy = "AdministratorPolicy")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +57,7 @@ namespace ApproxiMATEwebApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Create([Bind("CityId,Description")] ZoneCity zoneCity)
         {
             if (ModelState.IsValid)
@@ -68,6 +70,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneCities/Edit/5
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -88,6 +91,7 @@ namespace ApproxiMATEwebApi.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Edit(int id, [Bind("CityId,Description")] ZoneCity zoneCity)
         {
             if (id != zoneCity.CityId)
@@ -119,6 +123,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
 
         // GET: ZoneCities/Delete/5
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,6 +144,7 @@ namespace ApproxiMATEwebApi.Controllers
         // POST: ZoneCities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "AdministratorPolicy")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var zoneCity = await _context.ZoneCities.SingleOrDefaultAsync(m => m.CityId == id);

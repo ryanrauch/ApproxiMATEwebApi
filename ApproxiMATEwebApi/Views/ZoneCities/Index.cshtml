@@ -12,10 +12,14 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -23,6 +27,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State.Description)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.CityId">Edit</a> |
