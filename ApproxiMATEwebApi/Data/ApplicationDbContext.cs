@@ -28,5 +28,7 @@ namespace ApproxiMATEwebApi.Data
         public DbSet<ZoneRegionPolygon> ZoneRegionPolygons { get; set; }
         public DbSet<ZoneState> ZoneStates { get; set; }
         public DbSet<ApproxiMATEwebApi.Models.ApplicationUser> ApplicationUser { get; set; }
+
+        public DbSet<ApplicationOption> ApplicationOptions { get; set; }
     }
 }

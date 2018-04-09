@@ -18,6 +18,8 @@ namespace ApproxiMATEwebApi.Models
         public AccountGender Gender { get; set; }
         public AccountType AccountType { get; set; }
 
+        public DateTime TermsAndConditionsDate { get; set; }
+
         //possibly abstract this to different table later if better performance is needed
         public double CurrentLatitude { get; set; }
         public double CurrentLongitude { get; set; }

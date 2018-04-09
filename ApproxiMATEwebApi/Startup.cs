@@ -75,7 +75,9 @@ namespace ApproxiMATEwebApi
             {
                 options.DefaultAuthenticateScheme = "Jwt";
                 options.DefaultChallengeScheme = "Jwt";
-            }).AddJwtBearer("Jwt", options =>
+            })
+            //.AddCookie(cfg=>cfg.SlidingExpiration = true) //this is only added for dual-auth
+            .AddJwtBearer("Jwt", options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using ApproxiMATEwebApi.Data;
 
 namespace ApproxiMATEwebApi
 {
@@ -14,7 +15,7 @@ namespace ApproxiMATEwebApi
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args).Seed().Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
