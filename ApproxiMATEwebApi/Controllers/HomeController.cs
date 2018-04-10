@@ -5,13 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ApproxiMATEwebApi.Models;
+//using Microsoft.Extensions.Configuration;
 
 namespace ApproxiMATEwebApi.Controllers
 {
     public class HomeController : Controller
     {
+        //public IConfiguration Configuration { get; set; }
+        //public HomeController(IConfiguration config)
+        //{
+        //    Configuration = config;
+        //}
+
         public IActionResult Index()
         {
+            //ViewData["myConnectionString"] = Configuration.GetConnectionString("DefaultConnection").Substring(0,12);
             return View();
         }
 
