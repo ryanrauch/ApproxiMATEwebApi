@@ -22,9 +22,9 @@ namespace ApproxiMATEwebApi.Controllers
             _context = context;
         }
 
-        // GET: api/UserPhoneNumbers
-        [HttpGet]
-        public async Task<IActionResult> GetUserPhoneNumberFriends([FromBody] UserPhoneNumbers numbers)
+        // POST: api/UserPhoneNumbers
+        [HttpPost]
+        public async Task<IActionResult> PostUserPhoneNumberFriends([FromBody] UserPhoneNumbers numbers)
         {
             if (!ModelState.IsValid)
             {
