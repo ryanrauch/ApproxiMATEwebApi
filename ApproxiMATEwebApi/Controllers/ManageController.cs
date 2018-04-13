@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Models.ManageViewModels;
 using ApproxiMATEwebApi.Services;
+using ApproxiMATEwebApi.Helpers;
 
 namespace ApproxiMATEwebApi.Controllers
 {
@@ -93,9 +94,9 @@ namespace ApproxiMATEwebApi.Controllers
             }
 
             var phoneNumber = user.PhoneNumber;
-            if (model.PhoneNumber != phoneNumber)
+            if (ExtractPhoneNumber.RemoveNonNumeric(model.PhoneNumber) != phoneNumber)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, model.PhoneNumber);
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, ExtractPhoneNumber.RemoveNonNumeric(model.PhoneNumber));
                 if (!setPhoneResult.Succeeded)
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");

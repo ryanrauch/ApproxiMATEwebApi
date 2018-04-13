@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Models.AccountViewModels;
 using ApproxiMATEwebApi.Services;
+using ApproxiMATEwebApi.Helpers;
 
 namespace ApproxiMATEwebApi.Controllers
 {
@@ -229,7 +230,7 @@ namespace ApproxiMATEwebApi.Controllers
                     DateOfBirth = model.DateOfBirth,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumber = ExtractPhoneNumber.RemoveNonNumeric(model.PhoneNumber),
                     AccountType = AccountType.Regular
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);

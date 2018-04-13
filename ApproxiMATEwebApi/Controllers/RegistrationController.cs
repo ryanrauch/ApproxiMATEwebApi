@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Services;
+using ApproxiMATEwebApi.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -44,7 +45,7 @@ namespace ApproxiMATEwebApi.Controllers
                 DateOfBirth=data.DateofBirth,
                 FirstName=data.FirstName,
                 LastName=data.LastName,
-                PhoneNumber=data.PhoneNumber,
+                PhoneNumber=ExtractPhoneNumber.RemoveNonNumeric(data.PhoneNumber),
                 AccountType=AccountType.Regular
             };
             var result = await _userManager.CreateAsync(user, data.Password);
