@@ -48,7 +48,8 @@ namespace ApproxiMATEwebApi.Controllers
                                       UserName = a.UserName
                                   };
             //List of UserPhoneResult.cs should be the return type
-            return Ok(registeredUsers.ToListAsync());
+            var data = await registeredUsers.ToListAsync();
+            return Ok(data);
             // TODO move this to a friendrequest controller
             //var friends = await _context.FriendRequests
             //                            .Where(f => f.InitiatorId.Equals(numbers.UserId) 
