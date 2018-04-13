@@ -44,8 +44,8 @@ namespace ApproxiMATEwebApi.Controllers
                 return true;
             }
             //WTF is this??
-            //change to use identity provider??
-            return !string.IsNullOrEmpty(username) && username == password;
+            //return !string.IsNullOrEmpty(username) && username == password;
+            return false;
         }
 
         private string GenerateToken(string username)

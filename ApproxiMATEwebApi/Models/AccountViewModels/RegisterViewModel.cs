@@ -24,10 +24,10 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        //below variables were added to see if works?
-        //[Required]
-        //[Display(Name = "Displayed User Name")]
-        //public string DisplayName { get; set; }
+        //below variables were added
+        [Required]
+        [Display(Name = "Displayed User Name")]
+        public string DisplayName { get; set; }
 
         [Required]
         [Display(Name = "First Name")]
@@ -41,5 +41,9 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
         [DataType(DataType.Date)]
         [Display(Name = "Date of Birth")]
         public DateTime DateOfBirth { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
     }
 }

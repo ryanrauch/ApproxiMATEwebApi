@@ -67,6 +67,8 @@ namespace ApproxiMATEwebApi.Controllers
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
+                //TODO: verify _signInManager.PasswordSignInAsync(model.UserName,...
+                //      works with both email and username?
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
@@ -222,11 +224,12 @@ namespace ApproxiMATEwebApi.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
+                    UserName = model.DisplayName,
                     Email = model.Email,
                     DateOfBirth = model.DateOfBirth,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber,
                     AccountType = AccountType.Regular
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);

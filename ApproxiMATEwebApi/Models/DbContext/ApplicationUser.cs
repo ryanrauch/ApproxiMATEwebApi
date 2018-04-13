@@ -14,15 +14,13 @@ namespace ApproxiMATEwebApi.Models
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
-        //public int Gender { get; set; }             //enum
         public AccountGender Gender { get; set; }
         public AccountType AccountType { get; set; }
-
-        public DateTime TermsAndConditionsDate { get; set; }
+        public DateTime? TermsAndConditionsDate { get; set; }
 
         //possibly abstract this to different table later if better performance is needed
-        public double CurrentLatitude { get; set; }
-        public double CurrentLongitude { get; set; }
-        public DateTime CurrentTimeStamp { get; set; }
+        public double? CurrentLatitude { get; set; }
+        public double? CurrentLongitude { get; set; }
+        public DateTime? CurrentTimeStamp { get; set; }
     }
 }

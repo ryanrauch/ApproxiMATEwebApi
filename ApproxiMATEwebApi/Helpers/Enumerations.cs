@@ -8,7 +8,8 @@ namespace ApproxiMATEwebApi
     public enum AccountType
     {
         Regular = 0,
-        Administrative = 1
+        Administrative = 1,
+        MockedData = 2
     };
     public enum AccountGender
     {
@@ -19,5 +20,10 @@ namespace ApproxiMATEwebApi
     {
         Neighborhood = 0,
         SocialDistrict = 1
+    };
+    public enum FriendRequestType
+    {
+        Normal = 0,
+        Blocked = 1
     };
 }

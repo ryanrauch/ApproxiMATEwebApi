@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApproxiMATEwebApi.Controllers
 {
+    /*
     [Produces("application/json")]
     [Route("api/ZoneRegionPolygons")]
     [Authorize]
@@ -125,4 +126,5 @@ namespace ApproxiMATEwebApi.Controllers
             return _context.ZoneRegionPolygons.Any(e => e.Order == id);
         }
     }
+    */
 }

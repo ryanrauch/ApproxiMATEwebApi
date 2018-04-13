@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180413130848_initial13")]
+    partial class initial13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -189,6 +190,8 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
                     b.HasKey("RegionId", "Order");
 
+                    b.HasAlternateKey("Order", "RegionId");
+
                     b.ToTable("ZoneRegionPolygons");
                 });
 
@@ -333,14 +336,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.HasOne("ApproxiMATEwebApi.Models.ZoneCity", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
-                });
-
-            modelBuilder.Entity("ApproxiMATEwebApi.Models.ZoneRegionPolygon", b =>
-                {
-                    b.HasOne("ApproxiMATEwebApi.Models.ZoneRegion", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

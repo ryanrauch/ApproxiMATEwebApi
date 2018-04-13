@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180412222706_initial9")]
+    partial class initial9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,11 +52,11 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<double?>("CurrentLatitude");
+                    b.Property<double>("CurrentLatitude");
 
-                    b.Property<double?>("CurrentLongitude");
+                    b.Property<double>("CurrentLongitude");
 
-                    b.Property<DateTime?>("CurrentTimeStamp");
+                    b.Property<DateTime>("CurrentTimeStamp");
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -88,7 +89,7 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<DateTime?>("TermsAndConditionsDate");
+                    b.Property<DateTime>("TermsAndConditionsDate");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -106,21 +107,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("ApproxiMATEwebApi.Models.FriendRequest", b =>
-                {
-                    b.Property<Guid>("InitiatorId");
-
-                    b.Property<Guid>("TargetId");
-
-                    b.Property<DateTime>("TimeStamp");
-
-                    b.Property<int?>("Type");
-
-                    b.HasKey("InitiatorId", "TargetId");
-
-                    b.ToTable("FriendRequests");
                 });
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.LocationHistory", b =>
@@ -179,15 +165,18 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.ZoneRegionPolygon", b =>
                 {
-                    b.Property<int>("RegionId");
-
-                    b.Property<int>("Order");
+                    b.Property<int>("Order")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
 
-                    b.HasKey("RegionId", "Order");
+                    b.Property<int?>("RegionId");
+
+                    b.HasKey("Order");
+
+                    b.HasIndex("RegionId");
 
                     b.ToTable("ZoneRegionPolygons");
                 });
@@ -339,8 +328,7 @@ namespace ApproxiMATEwebApi.Data.Migrations
                 {
                     b.HasOne("ApproxiMATEwebApi.Models.ZoneRegion", "Region")
                         .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RegionId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

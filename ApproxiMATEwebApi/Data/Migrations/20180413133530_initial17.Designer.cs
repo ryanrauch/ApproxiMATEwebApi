@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180413133530_initial17")]
+    partial class initial17
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,21 +178,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.ToTable("ZoneRegions");
                 });
 
-            modelBuilder.Entity("ApproxiMATEwebApi.Models.ZoneRegionPolygon", b =>
-                {
-                    b.Property<int>("RegionId");
-
-                    b.Property<int>("Order");
-
-                    b.Property<double>("Latitude");
-
-                    b.Property<double>("Longitude");
-
-                    b.HasKey("RegionId", "Order");
-
-                    b.ToTable("ZoneRegionPolygons");
-                });
-
             modelBuilder.Entity("ApproxiMATEwebApi.Models.ZoneState", b =>
                 {
                     b.Property<int>("StateId")
@@ -333,14 +319,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.HasOne("ApproxiMATEwebApi.Models.ZoneCity", "City")
                         .WithMany()
                         .HasForeignKey("CityId");
-                });
-
-            modelBuilder.Entity("ApproxiMATEwebApi.Models.ZoneRegionPolygon", b =>
-                {
-                    b.HasOne("ApproxiMATEwebApi.Models.ZoneRegion", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

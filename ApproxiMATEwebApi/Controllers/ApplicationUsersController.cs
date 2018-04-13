@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ApproxiMATEwebApi.Data;
 using ApproxiMATEwebApi.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ApproxiMATEwebApi.Controllers
 {

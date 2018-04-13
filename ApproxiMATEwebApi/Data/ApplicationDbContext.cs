@@ -21,13 +21,19 @@ namespace ApproxiMATEwebApi.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<FriendRequest>()
+                   .HasKey(f => new { f.InitiatorId, f.TargetId });
+            builder.Entity<ZoneRegionPolygon>()
+                   .HasKey(p => new { p.RegionId, p.Order });
         }
         public DbSet<LocationHistory> LocationHistories { get; set; }
         public DbSet<ZoneCity> ZoneCities { get; set; }
         public DbSet<ZoneRegion> ZoneRegions { get; set; }
-        public DbSet<ZoneRegionPolygon> ZoneRegionPolygons { get; set; }
+        public DbSet<ZoneRegionPolygon> ZoneRegionPolygons { get; set; }//TODO: accidentally dropped in sql- not sure how to add this back
         public DbSet<ZoneState> ZoneStates { get; set; }
         public DbSet<ApproxiMATEwebApi.Models.ApplicationUser> ApplicationUser { get; set; }
+
+        public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public DbSet<ApplicationOption> ApplicationOptions { get; set; }
     }
