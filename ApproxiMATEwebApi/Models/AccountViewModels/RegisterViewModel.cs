@@ -26,7 +26,7 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
 
         //below variables were added
         [Required]
-        [Display(Name = "Displayed User Name")]
+        [Display(Name = "User Name")]
         public string DisplayName { get; set; }
 
         [Required]
@@ -44,6 +44,7 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
 
         [Required]
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
 }
