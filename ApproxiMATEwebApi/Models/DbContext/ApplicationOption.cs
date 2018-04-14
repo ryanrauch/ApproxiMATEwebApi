@@ -14,5 +14,6 @@ namespace ApproxiMATEwebApi.Models
         public string EndUserLicenseAgreementSource { get; set; }
         public string TermsConditionsSource { get; set; }
         public string PrivacyPolicySource { get; set; }
+        public TimeSpan DataTimeWindow { get; set; }
     }
 }
