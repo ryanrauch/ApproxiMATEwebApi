@@ -100,7 +100,11 @@ namespace ApproxiMATEwebApi.Controllers
             {
                 return BadRequest(ModelState);
             }
-
+            // don't allow friend requests to self.
+            if (friendRequest.InitiatorId.Equals(friendRequest.TargetId))
+            {
+                return BadRequest(friendRequest.TargetId);
+            }
             _context.FriendRequests.Add(friendRequest);
             try
             {

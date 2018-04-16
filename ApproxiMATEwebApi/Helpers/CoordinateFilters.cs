@@ -16,7 +16,12 @@ namespace ApproxiMATEwebApi
         {
             return LatitudeBound(input);
         }
-
+        public static string GetBoundingBox(double latitude, double longitude)
+        {
+            return string.Format("{0}{1}{2}", LatitudeBound(latitude),
+                                              Constants.BoundingBoxDelim,
+                                              LongitudeBound(longitude));
+        }
         //Latitude x Longitude
         //bounding box example: "30.40x-97.72" [string] [x is defined in constants]
         //bounding box always contains floor values
