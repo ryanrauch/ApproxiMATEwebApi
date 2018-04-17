@@ -1,6 +1,7 @@
 ﻿using ApproxiMATEwebApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -18,13 +19,16 @@ namespace ApproxiMATEwebApi.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private readonly IConfiguration _configuration;
 
         public TokenController(
             SignInManager<ApplicationUser> signInManager,
-            ILogger<TokenController> logger)
+            ILogger<TokenController> logger,
+            IConfiguration configuration)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -59,7 +63,7 @@ namespace ApproxiMATEwebApi.Controllers
 
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Constants.JwtSecretNeedsToBeSecured)),
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[Constants.JwtSecretKey])),
                                              SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 

@@ -51,7 +51,7 @@ namespace ApproxiMATEwebApi.Controllers
 
             //TODO: Implement Ray-casting algorithm
             //      to determine if users are within the specific region
-            return NotFound("splution for region polygons");
+            return NotFound("solution for region polygons");
 
             return Ok(locationRegion);
         }
