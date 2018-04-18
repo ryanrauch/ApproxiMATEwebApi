@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using ApproxiMATEwebApi.Helpers;
 
 namespace ApproxiMATEwebApi
 {
@@ -43,6 +44,8 @@ namespace ApproxiMATEwebApi
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IRegionFunctions, RegionFunctionsRandolphFranklin> ();
 
             //JWT??? make sure this is in correct order
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
