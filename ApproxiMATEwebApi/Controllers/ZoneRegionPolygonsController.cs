@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ApproxiMATEwebApi.Controllers
 {
-    /*
     [Produces("application/json")]
     [Route("api/ZoneRegionPolygons")]
     [Authorize]
@@ -40,7 +39,10 @@ namespace ApproxiMATEwebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var zoneRegionPolygon = await _context.ZoneRegionPolygons.SingleOrDefaultAsync(m => m.Order == id);
+            var zoneRegionPolygon = await _context.ZoneRegionPolygons
+                                                  .Where(m => m.RegionId == id)
+                                                  .OrderBy(m => m.Order)
+                                                  .ToListAsync();
 
             if (zoneRegionPolygon == null)
             {
@@ -126,5 +128,5 @@ namespace ApproxiMATEwebApi.Controllers
             return _context.ZoneRegionPolygons.Any(e => e.Order == id);
         }
     }
-    */
+    
 }
