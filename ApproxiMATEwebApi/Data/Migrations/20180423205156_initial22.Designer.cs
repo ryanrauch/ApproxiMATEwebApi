@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180423205156_initial22")]
+    partial class initial22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,10 +167,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.Property<int>("RegionId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ARGBFill");
-
-                    b.Property<string>("ARGBStroke");
-
                     b.Property<double>("BoundLatitudeMax");
 
                     b.Property<double>("BoundLatitudeMin");
@@ -182,7 +179,11 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<float>("StrokeWidth");
+                    b.Property<string>("RGBAFill");
+
+                    b.Property<string>("RGBAStroke");
+
+                    b.Property<double>("StrokeWidth");
 
                     b.Property<int>("Type");
 

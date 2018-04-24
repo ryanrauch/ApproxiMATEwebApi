@@ -17,6 +17,8 @@ namespace ApproxiMATEwebApi.Models
         public double BoundLatitudeMax { get; set; }
         public double BoundLongitudeMin { get; set; }
         public double BoundLongitudeMax { get; set; }
-        public String RGBColorHex { get; set; }
+        public String ARGBFill { get; set; }
+        public String ARGBStroke { get; set; }
+        public float StrokeWidth { get; set; }
     }
 }
