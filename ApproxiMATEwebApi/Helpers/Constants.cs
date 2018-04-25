@@ -12,5 +12,7 @@ namespace ApproxiMATEwebApi
         //public static readonly String JwtSecretNeedsToBeSecured = "com.ryanrauch.ApproxiMATE.HmacSha256";
         //public static readonly String HostedWebApiAddress = "https://localhost:44376";  //this should change? move to appsettings?
         public static readonly String BoundingBoxDelim = "x";
+        public static readonly String DefaultSQLConnectionStringKey = "DefaultConnection";
+        public static readonly String MongoDbConnectionStringKey = "MongoDbConnection";
     }
 }
