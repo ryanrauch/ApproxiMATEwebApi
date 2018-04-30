@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApproxiMATEwebApi
+namespace ApproxiMATEwebApi.Helpers
 {
     public enum AccountType
     {
@@ -25,5 +25,20 @@ namespace ApproxiMATEwebApi
     {
         Normal = 0,
         Blocked = 1
+    };
+    public enum FriendStatus
+    {
+        NotRegistered = 0,
+        Initiated = 1,
+        Mutual = 2,
+        PendingRequest = 3,
+        Available = 4,
+        Blocked = 5
+    };
+    public enum PolygonOrientation
+    {
+        Colinear = 0,
+        Clockwise = 1,
+        CounterClockwise = 2
     };
 }
