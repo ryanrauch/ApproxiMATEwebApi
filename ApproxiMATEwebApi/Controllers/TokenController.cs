@@ -1,4 +1,5 @@
 ﻿using ApproxiMATEwebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -20,20 +21,26 @@ namespace ApproxiMATEwebApi.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public TokenController(
             SignInManager<ApplicationUser> signInManager,
             ILogger<TokenController> logger,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
             _configuration = configuration;
+            _userManager = userManager;
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Create(string username, string password, bool isPersistent)
         {
+            //TODO: re-write this entire controller
+            //      to be async, and implement better security measures
             if (IsValidUserAndPasswordCombination(username, password, isPersistent))
                 return new ObjectResult(GenerateToken(username));
             return BadRequest();
@@ -54,9 +61,12 @@ namespace ApproxiMATEwebApi.Controllers
 
         private string GenerateToken(string username)
         {
+            var appUser = _userManager.FindByNameAsync(username).Result;
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.Name, username),
+                //new Claim(ClaimTypes.Name, username),
+                //new Claim(ClaimTypes.NameIdentifier, appUser.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, appUser.Id),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };

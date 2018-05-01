@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using ApproxiMATEwebApi.Helpers;
+using Microsoft.AspNetCore.Http;
 
 namespace ApproxiMATEwebApi
 {
@@ -40,35 +41,13 @@ namespace ApproxiMATEwebApi
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
-
             // Add application services.
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
             services.AddTransient<IEmailSender, EmailSender>();
-
             services.AddTransient<IRegionFunctions, RegionFunctionsRandolphFranklin> ();
-
-            //JWT??? make sure this is in correct order
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //        .AddJwtBearer(options =>
-            //        {
-            //            options.TokenValidationParameters = new TokenValidationParameters
-            //            {
-            //                ValidateIssuer = true,
-            //                ValidateAudience = true,
-            //                ValidateLifetime = true,
-            //                ValidateIssuerSigningKey = true,
-            //                ValidIssuer = Configuration["Jwt:Issuer"],
-            //                ValidAudience = Configuration["Jwt:Issuer"],
-            //                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
-            //            };
-            //        });
-            //var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
-            //services.Configure<JwtIssuerOptions>(options =>
-            //{
-            //    options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
-            //    options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-            //    options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
-            //});
+            //services.AddTransient<IHexagonal, HexagonalEquilateral>(); //class needs location-data to be initialized
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IAuthorizationHandler, AdministratorHandler>();
 
             services.AddMvc();
 
@@ -104,8 +83,6 @@ namespace ApproxiMATEwebApi
             
             //TODO:
             //claim types do not work with JwtBearer token??
-
-            services.AddSingleton<IAuthorizationHandler, AdministratorHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

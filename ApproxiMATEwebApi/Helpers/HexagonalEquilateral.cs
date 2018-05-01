@@ -32,6 +32,8 @@ namespace ApproxiMATEwebApi.Helpers
             double lon_right = center.Longitude + HALFRADIUS;
             // positions start with top-left, rotating clockwise
             Polygon poly = new Polygon();
+            if (poly.Positions == null)
+                poly.Positions = new List<Position>();
             poly.Positions.Add(new Position(lat_top, lon_left));
             poly.Positions.Add(new Position(lat_top, lon_right));
             poly.Positions.Add(new Position(center.Latitude, center.Longitude + RADIUS));
