@@ -37,7 +37,7 @@ namespace ApproxiMATEwebApi.Controllers
             {
                 return NotFound(id);
             }
-            DateTime timeStamp = DateTime.Now;
+            DateTime timeStamp = DateTime.Now.ToUniversalTime();
             applicationUser.CurrentLatitude = currentLocation.Latitude;
             applicationUser.CurrentLongitude = currentLocation.Longitude;
             applicationUser.CurrentTimeStamp = timeStamp;

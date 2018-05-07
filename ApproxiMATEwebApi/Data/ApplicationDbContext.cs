@@ -36,5 +36,6 @@ namespace ApproxiMATEwebApi.Data
         public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public DbSet<ApplicationOption> ApplicationOptions { get; set; }
+        public DbSet<CurrentLayer> CurrentLayers { get; set; }
     }
 }
