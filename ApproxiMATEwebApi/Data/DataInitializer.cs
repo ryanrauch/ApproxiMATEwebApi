@@ -34,6 +34,27 @@ namespace ApproxiMATEwebApi.Data
             //return;
             if(_context.ZoneRegions.Count() == 0)
             {
+                if(_context.ZoneStates.Count() == 0)
+                {
+                    _context.ZoneStates.Add(new ZoneState()
+                    {
+                        //StateId=1,
+                        Description="Texas",
+                        ShortDescription="TX"
+                    });
+                }
+                await _context.SaveChangesAsync();
+                var texas = _context.ZoneStates.FirstOrDefault(s => s.Description.Equals("Texas", StringComparison.OrdinalIgnoreCase));
+                if(_context.ZoneCities.Count() == 0)
+                {
+                    _context.ZoneCities.Add(new ZoneCity()
+                    {
+                        //CityId=1,
+                        Description="Austin",
+                        State = texas
+                    });
+                    await _context.SaveChangesAsync();
+                }
                 ZoneCity zoneCityAustin = _context.ZoneCities.FirstOrDefault(c => c.Description.Equals("austin", StringComparison.OrdinalIgnoreCase));
                 if (zoneCityAustin == null)
                     return;
