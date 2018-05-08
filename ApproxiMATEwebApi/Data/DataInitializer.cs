@@ -23,7 +23,11 @@ namespace ApproxiMATEwebApi.Data
                     OptionsDate = DateTime.Now,
                     EndUserLicenseAgreementSource = "https://www.lipsum.com/",
                     PrivacyPolicySource = "https://www.lipsum.com/",
-                    TermsConditionsSource = "https://www.lipsum.com/"
+                    TermsConditionsSource = "https://www.lipsum.com/",
+                    DataTimeWindow = TimeSpan.FromHours(12),
+                    Version=1,
+                    VersionMajor=0,
+                    VersionMinor=1
                 });
                 await _context.SaveChangesAsync();
             }

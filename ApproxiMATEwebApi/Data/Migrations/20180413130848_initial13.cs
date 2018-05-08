@@ -9,6 +9,9 @@ namespace ApproxiMATEwebApi.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ZoneRegionPolygons");
+
             migrationBuilder.CreateTable(
                 name: "ZoneRegionPolygons",
                 columns: table => new

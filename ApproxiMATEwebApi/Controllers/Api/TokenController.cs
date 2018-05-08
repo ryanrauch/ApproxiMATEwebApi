@@ -39,28 +39,38 @@ namespace ApproxiMATEwebApi.Controllers.Api
         [AllowAnonymous]
         public async Task<IActionResult> Create(string username, string password, bool persistent)
         {
-            if (await IsValidUserAndPasswordCombination(username, password, persistent))
+            bool foundemail = true;
+            var user = await _userManager.FindByEmailAsync(username);
+            if (user == null)
             {
-                string token = await GenerateToken(username);
+                foundemail = false;
+                user = await _userManager.FindByNameAsync(username);
+                if (user == null)
+                {
+                    return BadRequest();
+                }
+            }
+            var result = await _signInManager.PasswordSignInAsync(user, password, persistent, false);
+            if (result == Microsoft.AspNetCore.Identity.SignInResult.Success)
+            {
+                _logger.LogInformation(user.UserName + " logged in.");
+                string token = await GenerateToken(username, foundemail);
                 return new ObjectResult(token);
             }
             return BadRequest();
         }
 
-        private async Task<bool> IsValidUserAndPasswordCombination(string username, string password, bool persistent)
+        private async Task<string> GenerateToken(string username, bool foundemail)
         {
-            var result = await _signInManager.PasswordSignInAsync(username, password, persistent, false);
-            if(result == Microsoft.AspNetCore.Identity.SignInResult.Success)
+            ApplicationUser appUser;
+            if (foundemail)
             {
-                _logger.LogInformation("User logged in.");
-                return true;
+                appUser = await _userManager.FindByEmailAsync(username);
             }
-            return false;
-        }
-
-        private async Task<string> GenerateToken(string username)
-        {
-            var appUser = await _userManager.FindByNameAsync(username);
+            else
+            {
+                appUser = await _userManager.FindByNameAsync(username);
+            }
             var claims = new Claim[]
             {
                 //new Claim(ClaimTypes.Name, username),
