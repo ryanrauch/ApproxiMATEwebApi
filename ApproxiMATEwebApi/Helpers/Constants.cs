@@ -13,6 +13,5 @@ namespace ApproxiMATEwebApi
         public static readonly Char LayerDelimChar = '|';
         public static readonly String DefaultSQLConnectionStringKey = "DefaultConnection";
         public static readonly String MongoDbConnectionStringKey = "MongoDbConnection";
-        public static readonly String ConnectionString = "Server=tcp:x.x.x.x,1433;Initial Catalog=initcat;Persist Security Info=False;User ID=user;Password=pass;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 }
