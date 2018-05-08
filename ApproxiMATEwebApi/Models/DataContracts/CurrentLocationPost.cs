@@ -9,6 +9,5 @@ namespace ApproxiMATEwebApi.Models.DataContracts
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public double ZoomLevel { get; set; }
     }
 }

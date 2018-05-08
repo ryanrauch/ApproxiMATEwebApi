@@ -14,6 +14,7 @@ using ApproxiMATEwebApi.Models;
 using ApproxiMATEwebApi.Models.AccountViewModels;
 using ApproxiMATEwebApi.Services;
 using ApproxiMATEwebApi.Helpers;
+using ApproxiMATEwebApi.Services.Interfaces;
 
 namespace ApproxiMATEwebApi.Controllers
 {

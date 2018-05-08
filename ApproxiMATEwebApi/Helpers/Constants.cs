@@ -9,10 +9,10 @@ namespace ApproxiMATEwebApi
     {
         public static readonly String ApplicationUserAccountTypeClaim = "AccountType";
         public static readonly String JwtSecretKey = "JWTSecretKey";
-        //public static readonly String JwtSecretNeedsToBeSecured = "com.ryanrauch.ApproxiMATE.HmacSha256";
-        //public static readonly String HostedWebApiAddress = "https://localhost:44376";  //this should change? move to appsettings?
         public static readonly String BoundingBoxDelim = "x";
+        public static readonly Char LayerDelimChar = '|';
         public static readonly String DefaultSQLConnectionStringKey = "DefaultConnection";
         public static readonly String MongoDbConnectionStringKey = "MongoDbConnection";
+        public static readonly String ConnectionString = "Server=tcp:x.x.x.x,1433;Initial Catalog=initcat;Persist Security Info=False;User ID=user;Password=pass;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
     }
 }

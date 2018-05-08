@@ -26,6 +26,7 @@ namespace ApproxiMATEwebApi.Helpers
             throw new NotImplementedException("Must check this algorithm first, and apply logic to account for holes");
             //http:--//paulbourke.net/geometry/polygonmesh/#insidepoly
             //this implementation treats latitude=>x and longitude=>y
+            /*
             int counter = 0;
             double xIntersection;
             double p1x = polygon[0].Latitude,
@@ -59,6 +60,7 @@ namespace ApproxiMATEwebApi.Helpers
             if (counter % 2 == 0)
                 return false;
             return true;
+            */
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using ApproxiMATEwebApi.Services;
+using ApproxiMATEwebApi.Services.Interfaces;
 
 namespace ApproxiMATEwebApi.Services
 {

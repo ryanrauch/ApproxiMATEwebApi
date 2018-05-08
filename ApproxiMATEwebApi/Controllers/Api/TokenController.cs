@@ -13,9 +13,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApproxiMATEwebApi.Controllers
+namespace ApproxiMATEwebApi.Controllers.Api
 {
-    [Route("/token")]
+    [Route("api/token")]
     public class TokenController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -37,31 +37,30 @@ namespace ApproxiMATEwebApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Create(string username, string password, bool isPersistent)
+        public async Task<IActionResult> Create(string username, string password, bool persistent)
         {
-            //TODO: re-write this entire controller
-            //      to be async, and implement better security measures
-            if (IsValidUserAndPasswordCombination(username, password, isPersistent))
-                return new ObjectResult(GenerateToken(username));
+            if (await IsValidUserAndPasswordCombination(username, password, persistent))
+            {
+                string token = await GenerateToken(username);
+                return new ObjectResult(token);
+            }
             return BadRequest();
         }
 
-        private bool IsValidUserAndPasswordCombination(string username, string password, bool isPersistent)
+        private async Task<bool> IsValidUserAndPasswordCombination(string username, string password, bool persistent)
         {
-            var result = _signInManager.PasswordSignInAsync(username, password, isPersistent, false).Result;
+            var result = await _signInManager.PasswordSignInAsync(username, password, persistent, false);
             if(result == Microsoft.AspNetCore.Identity.SignInResult.Success)
             {
                 _logger.LogInformation("User logged in.");
                 return true;
             }
-            //WTF is this??
-            //return !string.IsNullOrEmpty(username) && username == password;
             return false;
         }
 
-        private string GenerateToken(string username)
+        private async Task<string> GenerateToken(string username)
         {
-            var appUser = _userManager.FindByNameAsync(username).Result;
+            var appUser = await _userManager.FindByNameAsync(username);
             var claims = new Claim[]
             {
                 //new Claim(ClaimTypes.Name, username),

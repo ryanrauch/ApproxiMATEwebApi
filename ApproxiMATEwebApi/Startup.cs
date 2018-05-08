@@ -19,6 +19,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using ApproxiMATEwebApi.Helpers;
 using Microsoft.AspNetCore.Http;
+using ApproxiMATEwebApi.Services.Interfaces;
 
 namespace ApproxiMATEwebApi
 {
@@ -45,7 +46,7 @@ namespace ApproxiMATEwebApi
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IRegionFunctions, RegionFunctionsRandolphFranklin> ();
-            //services.AddTransient<IHexagonal, HexagonalEquilateral>(); //class needs location-data to be initialized
+            services.AddTransient<IHexagonal, HexagonalEquilateralScale>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IAuthorizationHandler, AdministratorHandler>();
 
