@@ -27,15 +27,15 @@ namespace ApproxiMATEwebApi.Helpers
         General = 0,
         FriendRequest = 1
     }
-    public enum FriendStatus
-    {
-        NotRegistered = 0,
-        Initiated = 1,
-        Mutual = 2,
-        PendingRequest = 3,
-        Available = 4,
-        Blocked = 5
-    };
+    //public enum FriendStatus
+    //{
+    //    NotRegistered = 0,
+    //    Initiated = 1,
+    //    Mutual = 2,
+    //    PendingRequest = 3,
+    //    Available = 4,
+    //    Blocked = 5
+    //};
     public enum PolygonOrientation
     {
         Colinear = 0,

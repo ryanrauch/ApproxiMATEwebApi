@@ -17,16 +17,22 @@ namespace ApproxiMATEwebApi.Services
             _context = context;
         }
 
-        public async Task CreateLocationHistory(string id, double latitude, double longitude, DateTime timeStamp)
+        public async Task CreateLocationHistoryAsync(LocationHistory history)
         {
             await _context.LocationHistory
-                           .AddAsync(new LocationHistory()
-                           {
-                               UserId = id,
-                               Latitude = latitude,
-                               Longitude = longitude,
-                               TimeStamp = timeStamp
-                           });
+                          .AddAsync(history);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task CreateLocationHistoryAsync(string id, double latitude, double longitude, DateTime timeStamp)
+        {
+            await CreateLocationHistoryAsync(new LocationHistory()
+                                             {
+                                                 UserId = id,
+                                                 Latitude = latitude,
+                                                 Longitude = longitude,
+                                                 TimeStamp = timeStamp
+                                             });
         }
     }
 }

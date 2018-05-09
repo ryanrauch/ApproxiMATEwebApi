@@ -8,6 +8,8 @@ using ApproxiMATEwebApi.Data;
 using ApproxiMATEwebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using ApproxiMATEwebApi.Extensions;
+using ApproxiMATEwebApi.Models.DataContracts;
+using ApproxiMATEwebApi.Helpers;
 
 namespace ApproxiMATEwebApi.Controllers
 {
@@ -33,8 +35,18 @@ namespace ApproxiMATEwebApi.Controllers
         {
             var userId = _httpContextAccessor.CurrentUserId();
             var friends = await _context.FriendRequests
-                                        .Where(f => f.InitiatorId.Equals(userId)
-                                                    || f.TargetId.Equals(userId))
+                                        .Where(f => (f.InitiatorId.Equals(userId) 
+                                                     || f.TargetId.Equals(userId))
+                                                 && !(f.TargetId.Equals(userId) 
+                                                      && f.Type.HasValue 
+                                                      && f.Type.Value.Equals(FriendRequestType.Blocked)))
+                                        .Select(s => new FriendRequestContract()
+                                        {
+                                            InitiatorId = s.InitiatorId,
+                                            TargetId = s.TargetId,
+                                            TimeStamp = s.TimeStamp,
+                                            Type = s.Type
+                                        })
                                         .ToListAsync();
             if(friends == null || friends.Count == 0)
             {
@@ -52,9 +64,24 @@ namespace ApproxiMATEwebApi.Controllers
                 return BadRequest(ModelState);
             }
             var userId = _httpContextAccessor.CurrentUserId();
+            if(userId.Equals(id))
+            {
+                return BadRequest(id);
+            }
             var friendRequest = await _context.FriendRequests
-                                              .Where(f => (f.InitiatorId.Equals(id) && f.TargetId.Equals(userId))
-                                                          || (f.TargetId.Equals(id) && f.InitiatorId.Equals(userId))).ToListAsync();
+                                              .Where(f => (f.InitiatorId.Equals(id) 
+                                                           && f.TargetId.Equals(userId) 
+                                                           && !(f.Type.HasValue && f.Type.Value.Equals(FriendRequestType.Blocked)))
+                                                       || (f.TargetId.Equals(id) 
+                                                           && f.InitiatorId.Equals(userId)))
+                                              .Select(s => new FriendRequestContract()
+                                              {
+                                                  InitiatorId = s.InitiatorId,
+                                                  TargetId = s.TargetId,
+                                                  TimeStamp = s.TimeStamp,
+                                                  Type = s.Type
+                                              })
+                                              .ToListAsync();
             if (friendRequest == null)
             {
                 return NoContent();
@@ -80,8 +107,13 @@ namespace ApproxiMATEwebApi.Controllers
                 return BadRequest(friendRequest.TargetId);
             }
             var userExists = await _context.ApplicationUser
-                                       .AnyAsync(a => a.Id.Equals(friendRequest.TargetId));
-            if(!userExists)
+                                           .AnyAsync(a => a.Id.Equals(friendRequest.TargetId));
+            var blocked = await _context.FriendRequests
+                                        .AnyAsync(f => f.InitiatorId.Equals(friendRequest.TargetId)
+                                                       && f.TargetId.Equals(userId)
+                                                       && f.Type.HasValue
+                                                       && f.Type.Value.Equals(FriendRequestType.Blocked));
+            if(!userExists || blocked)
             {
                 return BadRequest(friendRequest.TargetId);
             }
@@ -112,6 +144,10 @@ namespace ApproxiMATEwebApi.Controllers
                 return BadRequest(ModelState);
             }
             var userId = _httpContextAccessor.CurrentUserId();
+            if(userId.Equals(id))
+            {
+                return BadRequest(id);
+            }
             var friendRequest = await _context.FriendRequests
                                               .SingleOrDefaultAsync(m => m.InitiatorId.Equals(userId)
                                                                          && m.TargetId.Equals(id));
