@@ -35,31 +35,44 @@ namespace ApproxiMATEwebApi.Controllers.Api
 
         // GET: api/UserLocation
         [HttpGet]
-        public async Task<IActionResult> GetUserLocations()
+        public async Task<IActionResult> GetAllUserLocations()
         {
             var target = _httpContextAccessor.CurrentUserId();
-            //var layers = await from f in _context.FriendRequests
-            //                   join c in _context.CurrentLayers on f.TargetId equals c.UserId
-            //                   where
-            //return Ok(layers);
-            return Ok();
-        }
+            var layers = await _context.FriendRequests
+                                       .Where(f => f.TargetId.Equals(target))
+                                       .Join(
+                                             inner: _context.CurrentLayers,
+                                             outerKeySelector: f => f.InitiatorId,
+                                             innerKeySelector: c => c.UserId,
+                                             resultSelector: (f, c) => new
+                                             {
+                                                 c.UserId,
+                                                 c.TimeStamp,
+                                                 c.LayersDelimited
+                                             })
+                                       .ToListAsync();
+            if (layers == null || layers.Count == 0)
+            {
+                return NoContent();
+            }
+            return Ok(layers);
+       }
 
         // GET: api/UserLocation/5
         [HttpGet("id")]
-        public async Task<IActionResult> GetUserLocation([FromRoute] Guid id)
+        public async Task<IActionResult> GetUserLocation([FromRoute] string id)
         {
             if(!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var target = _httpContextAccessor.CurrentUserGuid();
+            var target = _httpContextAccessor.CurrentUserId();
             var friendPermission = await _context.FriendRequests
                                                  .SingleOrDefaultAsync(s => s.TargetId.Equals(target) 
                                                                             && s.InitiatorId.Equals(id));
             if(friendPermission == null)
             {
-                return Unauthorized();
+                return NotFound();
             }
             var layer = await _context.CurrentLayers
                                       .SingleOrDefaultAsync(s => s.UserId.Equals(id));
@@ -81,7 +94,7 @@ namespace ApproxiMATEwebApi.Controllers.Api
             var timeStamp = DateTime.Now.ToUniversalTime();
             var gid = _httpContextAccessor.CurrentUserId();
             var appUser = await _context.ApplicationUser
-                                        .SingleOrDefaultAsync(a=>a.Id.Equals(gid));
+                                        .SingleOrDefaultAsync(a => a.Id.Equals(gid));
             if(appUser == null)
             {
                 return NotFound(gid);
@@ -89,7 +102,7 @@ namespace ApproxiMATEwebApi.Controllers.Api
             appUser.CurrentLatitude = currentLocationPost.Latitude;
             appUser.CurrentLongitude = currentLocationPost.Longitude;
             appUser.CurrentTimeStamp = timeStamp;
-            await _context.LocationHistories
+            await _context.LocationHistory
                           .AddAsync(new LocationHistory()
                           {
                               User = appUser,

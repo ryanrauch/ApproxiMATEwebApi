@@ -22,6 +22,11 @@ namespace ApproxiMATEwebApi.Helpers
         Normal = 0,
         Blocked = 1
     };
+    public enum NotificationType
+    {
+        General = 0,
+        FriendRequest = 1
+    }
     public enum FriendStatus
     {
         NotRegistered = 0,

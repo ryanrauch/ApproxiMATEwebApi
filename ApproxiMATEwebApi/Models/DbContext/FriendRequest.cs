@@ -16,6 +16,5 @@ namespace ApproxiMATEwebApi.Models
         public ApplicationUser Target { get; set; }
         public DateTime TimeStamp { get; set; }
         public FriendRequestType? Type { get; set; }
-        public Boolean TargetViewed { get; set; }
     }
 }

@@ -14,12 +14,5 @@ namespace ApproxiMATEwebApi.Extensions
             var stringId = httpContextAccessor?.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
             return stringId ?? String.Empty;
         }
-        public static Guid CurrentUserGuid(this IHttpContextAccessor httpContextAccessor)
-        {
-            Guid gid = Guid.Empty;
-            var stringId = httpContextAccessor?.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
-            Guid.TryParse(stringId ?? "0", out gid);
-            return gid;
-        }
     }
 }

@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-ApproxiMATEwebApi-9A707493-B7AA-41EC-A895-617C1B0D5E8F</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180509105833_37.cs" />
+    <Compile Remove="Data\Migrations\20180509105833_37.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180509105915_37.cs" />
+    <Compile Remove="Data\Migrations\20180509105915_37.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />

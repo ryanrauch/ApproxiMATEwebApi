@@ -43,7 +43,7 @@ namespace ApproxiMATEwebApi.Controllers
             applicationUser.CurrentTimeStamp = timeStamp;
             //_context.Update(applicationUser);
             //_context.Entry(applicationUser).State = EntityState.Modified;
-            await _context.LocationHistories
+            await _context.LocationHistory
                           .AddAsync(new LocationHistory()
                           {
                               User = applicationUser,

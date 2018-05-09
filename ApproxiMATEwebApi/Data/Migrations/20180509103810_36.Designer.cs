@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180509103810_36")]
+    partial class _36
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,7 +150,7 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.LocationHistory", b =>
                 {
-                    b.Property<string>("HistoryID")
+                    b.Property<Guid>("HistoryID")
                         .ValueGeneratedOnAdd();
 
                     b.Property<double>("Latitude");

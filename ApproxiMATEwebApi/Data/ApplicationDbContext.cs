@@ -32,7 +32,7 @@ namespace ApproxiMATEwebApi.Data
                    .HasKey(p => new { p.RegionId, p.Order });
 
         }
-        public DbSet<LocationHistory> LocationHistories { get; set; }
+        public DbSet<LocationHistory> LocationHistory { get; set; }
         public DbSet<ZoneCity> ZoneCities { get; set; }
         public DbSet<ZoneRegion> ZoneRegions { get; set; }
         public DbSet<ZoneRegionPolygon> ZoneRegionPolygons { get; set; }//TODO: accidentally dropped in sql- not sure how to add this back
