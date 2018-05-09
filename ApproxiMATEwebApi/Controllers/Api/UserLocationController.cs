@@ -33,7 +33,44 @@ namespace ApproxiMATEwebApi.Controllers.Api
             _hexagonal = hexagonal;
         }
 
-        // POST: apiV2/UserLocation
+        // GET: api/UserLocation
+        [HttpGet]
+        public async Task<IActionResult> GetUserLocations()
+        {
+            var target = _httpContextAccessor.CurrentUserGuid();
+            //var layers = await _context.FriendRequests
+            //                           .FindAsync(f => f.TargetId.Equals(target));
+            //                           //.Join()
+            //return Ok(layers);
+            return Ok();
+        }
+
+        // GET: api/UserLocation/5
+        [HttpGet("id")]
+        public async Task<IActionResult> GetUserLocation([FromRoute] Guid id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var target = _httpContextAccessor.CurrentUserGuid();
+            var friendPermission = await _context.FriendRequests
+                                                 .SingleOrDefaultAsync(s => s.TargetId.Equals(target) 
+                                                                            && s.InitiatorId.Equals(id));
+            if(friendPermission == null)
+            {
+                return Unauthorized();
+            }
+            var layer = await _context.CurrentLayers
+                                      .SingleOrDefaultAsync(s => s.UserId.Equals(id));
+            if(layer == null)
+            {
+                return NoContent();
+            }
+            return Ok(layer);
+        }
+
+        // POST: api/UserLocation
         [HttpPost]
         public async Task<IActionResult> PostCurrentLocation([FromBody] CurrentLocationPost currentLocationPost)
         {
@@ -43,7 +80,8 @@ namespace ApproxiMATEwebApi.Controllers.Api
             }
             var timeStamp = DateTime.Now.ToUniversalTime();
             var gid = _httpContextAccessor.CurrentUserGuid();
-            var appUser = await _context.ApplicationUser.SingleOrDefaultAsync(a=>a.Id.Equals(gid.ToString()));
+            var appUser = await _context.ApplicationUser
+                                        .SingleOrDefaultAsync(a=>a.Id.Equals(gid.ToString()));
             if(appUser == null)
             {
                 return NotFound(gid);
@@ -61,7 +99,8 @@ namespace ApproxiMATEwebApi.Controllers.Api
                           });
             _hexagonal.Initialize(currentLocationPost.Latitude, currentLocationPost.Longitude, _hexagonal.Layers[0]);
             String layers = _hexagonal.AllLayersDelimited();
-            var currentLayer = await _context.CurrentLayers.FirstOrDefaultAsync(c => c.UserId.Equals(gid));
+            var currentLayer = await _context.CurrentLayers
+                                             .FirstOrDefaultAsync(c => c.UserId.Equals(gid));
             if(currentLayer == null)
             {
                 await _context.CurrentLayers.AddAsync(new CurrentLayer()
@@ -75,12 +114,9 @@ namespace ApproxiMATEwebApi.Controllers.Api
             {
                 currentLayer.LayersDelimited = layers;
                 currentLayer.TimeStamp = timeStamp;
-                //_context.Entry(currentLayer).State = EntityState.Modified;
             }
             await _context.SaveChangesAsync();
             return Ok();
-            //var poly = _hexagonal.HexagonalPolygon(_hexagonal.CenterLocation);
-            //return Ok(poly);
         }
     }
 }

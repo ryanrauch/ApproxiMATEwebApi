@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180509072456_initial29")]
+    partial class initial29
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,9 +133,13 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.FriendRequest", b =>
                 {
-                    b.Property<string>("InitiatorId");
+                    b.Property<Guid>("InitiatorId");
 
-                    b.Property<string>("TargetId");
+                    b.Property<Guid>("TargetId");
+
+                    b.Property<string>("InitiatorId1");
+
+                    b.Property<string>("TargetId1");
 
                     b.Property<bool>("TargetViewed");
 
@@ -144,7 +149,9 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
                     b.HasKey("InitiatorId", "TargetId");
 
-                    b.HasIndex("TargetId");
+                    b.HasIndex("InitiatorId1");
+
+                    b.HasIndex("TargetId1");
 
                     b.ToTable("FriendRequests");
                 });
@@ -358,13 +365,11 @@ namespace ApproxiMATEwebApi.Data.Migrations
                 {
                     b.HasOne("ApproxiMATEwebApi.Models.ApplicationUser", "Initiator")
                         .WithMany()
-                        .HasForeignKey("InitiatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("InitiatorId1");
 
                     b.HasOne("ApproxiMATEwebApi.Models.ApplicationUser", "Target")
                         .WithMany()
-                        .HasForeignKey("TargetId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TargetId1");
                 });
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.LocationHistory", b =>

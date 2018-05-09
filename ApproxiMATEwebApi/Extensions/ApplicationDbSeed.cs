@@ -22,6 +22,9 @@ namespace ApproxiMATEwebApi.Data
                     {
                         var dataseed = new DataInitializer();
                         await dataseed.InitializeDataAsync(serviceProvider);
+#if DEBUG
+                        await dataseed.InitializeMockUsers(serviceProvider);
+#endif
                     }).Wait();
 
                 }

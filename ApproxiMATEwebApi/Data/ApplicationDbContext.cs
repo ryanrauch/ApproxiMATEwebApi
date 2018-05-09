@@ -25,6 +25,7 @@ namespace ApproxiMATEwebApi.Data
                    .HasKey(f => new { f.InitiatorId, f.TargetId });
             builder.Entity<ZoneRegionPolygon>()
                    .HasKey(p => new { p.RegionId, p.Order });
+
         }
         public DbSet<LocationHistory> LocationHistories { get; set; }
         public DbSet<ZoneCity> ZoneCities { get; set; }

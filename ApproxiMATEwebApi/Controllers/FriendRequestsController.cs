@@ -65,7 +65,7 @@ namespace ApproxiMATEwebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != friendRequest.InitiatorId)
+            if (id.ToString() != friendRequest.InitiatorId)
             {
                 return BadRequest();
             }
@@ -79,7 +79,7 @@ namespace ApproxiMATEwebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FriendRequestExists(id, friendRequest.TargetId))
+                if (!FriendRequestExists(id.ToString(), friendRequest.TargetId))
                 {
                     return NotFound();
                 }
@@ -148,7 +148,7 @@ namespace ApproxiMATEwebApi.Controllers
         }
         */
 
-        private bool FriendRequestExists(Guid initiate, Guid target)
+        private bool FriendRequestExists(String initiate, String target)
         {
             return _context.FriendRequests.Any(e => e.InitiatorId == initiate && e.TargetId == target);
         }

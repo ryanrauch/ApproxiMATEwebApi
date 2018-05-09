@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApproxiMATEwebApi.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -46,5 +47,9 @@ namespace ApproxiMATEwebApi.Models.AccountViewModels
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public AccountGender Gender { get; set; }
     }
 }

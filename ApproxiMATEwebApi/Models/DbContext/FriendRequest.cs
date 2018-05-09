@@ -10,13 +10,12 @@ namespace ApproxiMATEwebApi.Models
 {
     public class FriendRequest
     {
-        [Key]
-        [Column(Order=1)]
-        public Guid InitiatorId { get; set; }
-        [Key]
-        [Column(Order=2)]
-        public Guid TargetId { get; set; }
+        public String InitiatorId { get; set; }
+        public ApplicationUser Initiator { get; set; }
+        public String TargetId { get; set; }
+        public ApplicationUser Target { get; set; }
         public DateTime TimeStamp { get; set; }
         public FriendRequestType? Type { get; set; }
+        public Boolean TargetViewed { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace ApproxiMATEwebApi.Services
         Position IHexagonal.ExactLocation => new Position(_latitude, _longitude);
 
         private Position _centerLocation { get; set; }
-        Position IHexagonal.CenterLocation
+        public Position CenterLocation
         {
             get
             {
@@ -144,7 +144,7 @@ namespace ApproxiMATEwebApi.Services
             foreach (int i in Layers)
             {
                 SetLayer(i);
-                result += CreateTagFromCoordinates(_centerLocation, i) + Constants.LayerDelimChar;
+                result += CreateTagFromCoordinates(CenterLocation, i) + Constants.LayerDelimChar;
             }
             return result.TrimEnd(Constants.LayerDelimChar);
         }

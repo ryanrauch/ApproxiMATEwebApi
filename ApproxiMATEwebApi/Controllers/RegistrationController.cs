@@ -47,7 +47,8 @@ namespace ApproxiMATEwebApi.Controllers
                 FirstName=data.FirstName,
                 LastName=data.LastName,
                 PhoneNumber=ExtractPhoneNumber.RemoveNonNumeric(data.PhoneNumber),
-                AccountType=AccountType.Regular
+                AccountType=AccountType.Regular,
+                Gender=data.Gender
             };
             var result = await _userManager.CreateAsync(user, data.Password);
             if(result.Succeeded)

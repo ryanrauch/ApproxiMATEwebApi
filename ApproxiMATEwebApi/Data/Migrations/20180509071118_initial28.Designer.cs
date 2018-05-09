@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180509071118_initial28")]
+    partial class initial28
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,9 +133,9 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.FriendRequest", b =>
                 {
-                    b.Property<string>("InitiatorId");
+                    b.Property<Guid>("InitiatorId");
 
-                    b.Property<string>("TargetId");
+                    b.Property<Guid>("TargetId");
 
                     b.Property<bool>("TargetViewed");
 
@@ -143,8 +144,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.Property<int?>("Type");
 
                     b.HasKey("InitiatorId", "TargetId");
-
-                    b.HasIndex("TargetId");
 
                     b.ToTable("FriendRequests");
                 });
@@ -352,19 +351,6 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("ApproxiMATEwebApi.Models.FriendRequest", b =>
-                {
-                    b.HasOne("ApproxiMATEwebApi.Models.ApplicationUser", "Initiator")
-                        .WithMany()
-                        .HasForeignKey("InitiatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ApproxiMATEwebApi.Models.ApplicationUser", "Target")
-                        .WithMany()
-                        .HasForeignKey("TargetId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.LocationHistory", b =>
