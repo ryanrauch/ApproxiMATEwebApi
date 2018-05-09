@@ -20,7 +20,7 @@ namespace ApproxiMATEwebApi.Services
             _hexagonal = hexagonal;
         }
 
-        public async Task CreateOrUpdateCurrentLayers(Guid gid, double latitude, double longitude, DateTime timeStamp)
+        public async Task CreateOrUpdateCurrentLayers(string gid, double latitude, double longitude, DateTime timeStamp)
         {
             _hexagonal.Initialize(latitude, longitude, _hexagonal.Layers[0]);
             String layers = _hexagonal.AllLayersDelimited();

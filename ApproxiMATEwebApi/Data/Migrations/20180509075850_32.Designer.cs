@@ -12,9 +12,10 @@ using System;
 namespace ApproxiMATEwebApi.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180509075850_32")]
+    partial class _32
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +126,11 @@ namespace ApproxiMATEwebApi.Data.Migrations
 
                     b.Property<DateTime>("TimeStamp");
 
+                    b.Property<string>("UserId1");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("CurrentLayers");
                 });
@@ -352,6 +357,13 @@ namespace ApproxiMATEwebApi.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ApproxiMATEwebApi.Models.CurrentLayer", b =>
+                {
+                    b.HasOne("ApproxiMATEwebApi.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
                 });
 
             modelBuilder.Entity("ApproxiMATEwebApi.Models.FriendRequest", b =>

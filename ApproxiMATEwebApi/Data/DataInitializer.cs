@@ -74,7 +74,7 @@ namespace ApproxiMATEwebApi.Data
                 {
                     await _context.CurrentLayers.AddAsync(new CurrentLayer()
                     {
-                        UserId = Guid.Parse(user.Id),
+                        UserId = user.Id,
                         LayersDelimited = layers,
                         TimeStamp = timeStamp
                     });

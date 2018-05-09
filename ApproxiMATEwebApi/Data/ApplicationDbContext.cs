@@ -21,8 +21,13 @@ namespace ApproxiMATEwebApi.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+
             builder.Entity<FriendRequest>()
                    .HasKey(f => new { f.InitiatorId, f.TargetId });
+
+            builder.Entity<CurrentLayer>()
+                   .HasKey(c => c.UserId);
+
             builder.Entity<ZoneRegionPolygon>()
                    .HasKey(p => new { p.RegionId, p.Order });
 

@@ -9,6 +9,11 @@ namespace ApproxiMATEwebApi.Extensions
 {
     public static class IHttpContextAccessorExtensions
     {
+        public static string CurrentUserId(this IHttpContextAccessor httpContextAccessor)
+        {
+            var stringId = httpContextAccessor?.HttpContext?.User?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
+            return stringId ?? String.Empty;
+        }
         public static Guid CurrentUserGuid(this IHttpContextAccessor httpContextAccessor)
         {
             Guid gid = Guid.Empty;

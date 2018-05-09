@@ -37,10 +37,10 @@ namespace ApproxiMATEwebApi.Controllers.Api
         [HttpGet]
         public async Task<IActionResult> GetUserLocations()
         {
-            var target = _httpContextAccessor.CurrentUserGuid();
-            //var layers = await _context.FriendRequests
-            //                           .FindAsync(f => f.TargetId.Equals(target));
-            //                           //.Join()
+            var target = _httpContextAccessor.CurrentUserId();
+            //var layers = await from f in _context.FriendRequests
+            //                   join c in _context.CurrentLayers on f.TargetId equals c.UserId
+            //                   where
             //return Ok(layers);
             return Ok();
         }
@@ -79,9 +79,9 @@ namespace ApproxiMATEwebApi.Controllers.Api
                 return BadRequest(ModelState);
             }
             var timeStamp = DateTime.Now.ToUniversalTime();
-            var gid = _httpContextAccessor.CurrentUserGuid();
+            var gid = _httpContextAccessor.CurrentUserId();
             var appUser = await _context.ApplicationUser
-                                        .SingleOrDefaultAsync(a=>a.Id.Equals(gid.ToString()));
+                                        .SingleOrDefaultAsync(a=>a.Id.Equals(gid));
             if(appUser == null)
             {
                 return NotFound(gid);
