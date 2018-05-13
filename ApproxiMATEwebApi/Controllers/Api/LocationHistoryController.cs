@@ -42,7 +42,7 @@ namespace ApproxiMATEwebApi.Controllers.Api
             return Ok(history);
         }
 
-        // GET: api/LocationHistories/5
+        // GET: api/LocationHistory/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLocationHistory([FromRoute] int id)
         {

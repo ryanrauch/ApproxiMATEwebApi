@@ -38,6 +38,7 @@ namespace ApproxiMATEwebApi.Controllers.Api
         public async Task<IActionResult> GetAllUserLocations()
         {
             var target = _httpContextAccessor.CurrentUserId();
+            var options = await _context.ApplicationOptions.OrderByDescending(a => a.OptionsDate).FirstOrDefaultAsync();
             var layers = await _context.FriendRequests
                                        .Where(f => f.TargetId.Equals(target))
                                        .Join(
@@ -50,6 +51,7 @@ namespace ApproxiMATEwebApi.Controllers.Api
                                                  c.TimeStamp,
                                                  c.LayersDelimited
                                              })
+                                       .Where(d => d.TimeStamp >= (DateTime.Now.ToUniversalTime().Subtract(options.DataTimeWindow)))
                                        .ToListAsync();
             if (layers == null || layers.Count == 0)
             {
@@ -74,8 +76,12 @@ namespace ApproxiMATEwebApi.Controllers.Api
             {
                 return NotFound();
             }
+            var options = await _context.ApplicationOptions
+                                        .OrderByDescending(a => a.OptionsDate)
+                                        .FirstOrDefaultAsync();
             var layer = await _context.CurrentLayers
-                                      .SingleOrDefaultAsync(s => s.UserId.Equals(id));
+                                      .SingleOrDefaultAsync(s => s.UserId.Equals(id) 
+                                                                 && s.TimeStamp >= DateTime.Now.ToUniversalTime().Subtract(options.DataTimeWindow));
             if(layer == null)
             {
                 return NoContent();

@@ -69,7 +69,7 @@ namespace ApproxiMATEwebApi.Data
                 user.CurrentLongitude = lon;
                 _hexagonal.Initialize(lat, lon, _hexagonal.Layers[0]);
                 String layers = _hexagonal.AllLayersDelimited();
-                var currentLayer = await _context.CurrentLayers.FirstOrDefaultAsync(c => c.UserId.Equals(Guid.Parse(user.Id)));
+                var currentLayer = await _context.CurrentLayers.FirstOrDefaultAsync(c => c.UserId.Equals(user.Id));
                 if (currentLayer == null)
                 {
                     await _context.CurrentLayers.AddAsync(new CurrentLayer()
